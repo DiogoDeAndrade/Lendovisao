@@ -50,6 +50,7 @@ public class CharacterSelect : MonoBehaviour
             }
             if (selectInput.IsDown())
             {
+                SoundManager.PlayMusic(null);
                 FullscreenFader.FadeOut(0.5f, Color.black, () =>
                 {
                     SceneManager.LoadScene(scenes[selection]);

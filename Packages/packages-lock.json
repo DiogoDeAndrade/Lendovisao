@@ -298,6 +298,13 @@
         "com.unity.modules.imgui": "1.0.0"
       }
     },
+    "com.unity.uiextensions": {
+      "version": "https://bitbucket.org/UnityUIExtensions/unity-ui-extensions.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "7271aab53fc11f024e9e1256507f0c701daa25cb"
+    },
     "com.unity.visualscripting": {
       "version": "1.9.6",
       "depth": 0,

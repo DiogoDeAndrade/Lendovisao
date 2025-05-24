@@ -95,7 +95,7 @@ Material:
     - _EnableExternalAlpha: 0
     - _EnableRemap: 0
     - _InverseFactor: 0
-    - _OutlineEnable: 0
+    - _OutlineEnable: 1
     - _OutlineWidth: 4
     - _ZWrite: 0
     m_Colors:

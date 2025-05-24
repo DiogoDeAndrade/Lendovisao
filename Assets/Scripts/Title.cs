@@ -11,6 +11,7 @@ public class Title : MonoBehaviour
     [SerializeField] UIButton quitButton;
     [SerializeField] private BigTextScroll creditsScroll;
     [SerializeField, Scene] string gameScene;
+    [SerializeField] private AudioClip defaultMusic;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -18,6 +19,9 @@ public class Title : MonoBehaviour
         startButton.onInteract += StartButton_onInteract;
         creditsButton.onInteract += CreditsButton_onInteract;
         quitButton.onInteract += QuitButton_onInteract;
+
+        if (defaultMusic)
+            SoundManager.PlayMusic(defaultMusic);
     }
 
     private void StartButton_onInteract(BaseUIControl control)
@@ -48,6 +52,7 @@ public class Title : MonoBehaviour
 
     private void QuitButton_onInteract(BaseUIControl control)
     {
+        SoundManager.PlayMusic(null);
         FullscreenFader.FadeOut(1.0f, Color.black, () =>
         {
             Application.Quit();

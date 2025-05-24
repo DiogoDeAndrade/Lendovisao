@@ -78,6 +78,8 @@ public class GameSystem : MonoBehaviour
 
     void Start()
     {
+        SoundManager.PlayMusic(null);
+
         if (audioSource == null || beatRecording == null || beatRecording.audioClip == null)
         {
             Debug.LogError("GameSystem is not properly configured.");
