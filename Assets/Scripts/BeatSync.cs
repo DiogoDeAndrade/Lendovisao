@@ -8,7 +8,7 @@ public abstract class BeatSync : MonoBehaviour
 
     protected AudioSource   audioSource;
     protected BeatRecording beatRecording;
-    protected List<int>     beatSamples;
+    protected List<float>   beatSamples;
     protected int           currentIndex = 0;
     protected float         beatTime = 0.0f;
     protected int           counter;
@@ -37,7 +37,7 @@ public abstract class BeatSync : MonoBehaviour
             Debug.LogWarning("AudioSource.clip and BeatRecording.audioClip differ. For accurate sync, they should match.");
         }
 
-        beatSamples = beatRecording.beatSamplePositions;
+        beatSamples = beatRecording.beatPositions;
         currentIndex = startIndex;
     }
 
@@ -48,7 +48,7 @@ public abstract class BeatSync : MonoBehaviour
         if (!audioSource.isPlaying || currentIndex >= beatSamples.Count)
             return;
 
-        int currentSample = audioSource.timeSamples;
+        float currentSample = (beatRecording.useTime) ? (audioSource.time) : (audioSource.timeSamples);
 
         while (currentIndex < beatSamples.Count && currentSample >= beatSamples[currentIndex])
         {

@@ -5,11 +5,12 @@ using UnityEngine;
 
 public class BeatRecorder : MonoBehaviour
 {
-    [SerializeField] private AudioSource audioSource;
-    [SerializeField] private string saveName = "BeatRecording";
+    [SerializeField] private AudioSource    audioSource;
+    [SerializeField] private bool           useTime = true;
+    [SerializeField] private string         saveName = "BeatRecording";
 
-    private List<int> beatSamples = new List<int>();
-    private bool isRecording = false;
+    private List<float> beatSamples = new();
+    private bool        isRecording = false;
 
     private void Awake()
     {
@@ -24,7 +25,7 @@ public class BeatRecorder : MonoBehaviour
             audioSource.Play();
             isRecording = true;
             beatSamples.Clear();
-            int sample = audioSource.timeSamples;
+            float sample = (useTime) ? (audioSource.time) : (audioSource.timeSamples);
             beatSamples.Add(sample);
             Debug.Log("Recording started...");
         }
@@ -32,7 +33,7 @@ public class BeatRecorder : MonoBehaviour
         // Record beats on spacebar
         if (isRecording && Input.GetKeyDown(KeyCode.Space))
         {
-            int sample = audioSource.timeSamples;
+            float sample = (useTime) ? (audioSource.time) : (audioSource.timeSamples);
             beatSamples.Add(sample);
             Debug.Log($"Recorded beat at sample {sample}");
         }
@@ -51,8 +52,9 @@ public class BeatRecorder : MonoBehaviour
     {
 #if UNITY_EDITOR
         BeatRecording recording = ScriptableObject.CreateInstance<BeatRecording>();
+        recording.useTime = useTime;
         recording.audioClip = audioSource.clip;
-        recording.beatSamplePositions = new List<int>(beatSamples);
+        recording.beatPositions = new List<float>(beatSamples);
 
         string folderPath = "Assets/Audio";
         if (!AssetDatabase.IsValidFolder(folderPath))

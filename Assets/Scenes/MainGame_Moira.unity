@@ -563,6 +563,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &623316018 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 4126907026539500272, guid: 2c3b1e013e0a9a94881495f415272514, type: 3}
+  m_PrefabInstance: {fileID: 7191267440872464404}
+  m_PrefabAsset: {fileID: 0}
 --- !u!225 &640283221 stripped
 CanvasGroup:
   m_CorrespondingSourceObject: {fileID: 3823095934051207138, guid: b82be3dff43459f408614c6ec3215e5e, type: 3}
@@ -834,6 +839,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 577480315}
+  useTime: 1
   saveName: MoiraEncantadaBeat
 --- !u!4 &1325550083
 Transform:
@@ -1017,6 +1023,10 @@ PrefabInstance:
       propertyPath: booingAudioSource
       value: 
       objectReference: {fileID: 1802187115}
+    - target: {fileID: 513648593878412649, guid: dcb7101cee7905b46a4d88565b36a777, type: 3}
+      propertyPath: applauseAudioSource
+      value: 
+      objectReference: {fileID: 623316018}
     - target: {fileID: 513648593878412649, guid: dcb7101cee7905b46a4d88565b36a777, type: 3}
       propertyPath: minTimeBetweenNotes
       value: 0.1

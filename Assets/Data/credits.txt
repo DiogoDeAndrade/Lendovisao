@@ -7,12 +7,14 @@ Agradecimentos
 Arte
 <size=60%>1-Bit Pack by Kenney, licença CC0
 <size=60%>Font Eurovision by David Eurofan, free to use
+<size=60%>Font Coolvetica by Typodermic Fonts, free for for non-commercial use
 <size=60%>Personagens gerados por AI (DallE)
 <size=60%>Cenários gerados por AI (Sora)
 <size=60%>Tudo o resto por diogo de Andrade, licença CC0
 
 Som
-<size=60%>Booing sound by mrrap4food, licença CC0
+<size=60%>Booing by mrrap4food, licença CC0
+<size=60%>Applause by nervousneal, licença CC0
 <size=60%>Music AI gerada por Suno
 <size=60%>Tudo o resto por diogo de Andrade, licença CC0
 

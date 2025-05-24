@@ -21,6 +21,7 @@ public class GameSystem : MonoBehaviour
     [Header("References")]
     [SerializeField] private AudioSource        audioSource;
     [SerializeField] private AudioSource        booingAudioSource;
+    [SerializeField] private AudioSource        applauseAudioSource;
     [SerializeField] private BeatRecording      beatRecording;
     [SerializeField] private SubtitleTrack      subtitleTrack;
     [SerializeField] private SpriteRenderer     targetSpriteRenderer;
@@ -62,7 +63,7 @@ public class GameSystem : MonoBehaviour
     [Header("Controls")]
     [SerializeField] private string[] allButtons;
 
-    private List<int> beatSamples;
+    private List<float> beatPos;
     private int currentIndex = 0;
     private float lastSpawnTime = -Mathf.Infinity;
 
@@ -79,6 +80,9 @@ public class GameSystem : MonoBehaviour
     private bool                        fadedOut;
     private int                         successNotes = 0;
     private float                       timeSinceEnd = 0.0f;
+    private bool                        applauseOnZero = false;
+    private int                         prevNote;
+    private float                       prevNoteTime;
 
     public BeatRecording GetBeatRecording() => beatRecording;
     public AudioSource   GetAudioSource() => audioSource;
@@ -109,7 +113,7 @@ public class GameSystem : MonoBehaviour
             Debug.LogWarning("AudioSource.clip and BeatRecording.audioClip differ. For accurate sync, they should match.");
         }
 
-        beatSamples = beatRecording.beatSamplePositions;
+        beatPos = beatRecording.beatPositions;
         sampleRate = audioSource.clip.frequency;
 
         currentIndex = 0;
@@ -158,6 +162,7 @@ public class GameSystem : MonoBehaviour
                 if (!fadedOut)
                 {
                     fadedOut = true;
+                    applauseAudioSource.FadeTo(0.0f, 0.5f);
                     FullscreenFader.FadeOut(1.0f, Color.black, () => SceneManager.LoadScene(titleScene));
                 }
             }
@@ -180,9 +185,11 @@ public class GameSystem : MonoBehaviour
 
         float currentTime = audioSource.time;
 
-        while (currentIndex < beatSamples.Count)
+        while (currentIndex < beatPos.Count)
         {
-            float beatTime = beatSamples[currentIndex] / sampleRate;
+            float beatTime = beatRecording.useTime
+                ? beatPos[currentIndex]
+                : beatPos[currentIndex] / sampleRate;
             float spawnTime = beatTime - timeBeforeNote;
 
             if (currentTime >= spawnTime)
@@ -201,19 +208,21 @@ public class GameSystem : MonoBehaviour
             }
         }
 
-        if (currentIndex >= beatSamples.Count)
+        if (currentIndex >= beatPos.Count)
         {
             timeSinceEnd += Time.deltaTime;
 
             if (timeSinceEnd > timeBeforeNote * 1.25f)
             {
-                var score = (float)successNotes / (float)beatSamples.Count;
+                var score = (float)successNotes / (float)beatPos.Count;
                 score = Mathf.Lerp(6, 12, score);
                 successObject.SetActive(true);
                 scoreObject.text = $"{Mathf.RoundToInt(score)} points!";
                 gameOver = true;
                 if (subtitleText) subtitleText.text = "";
                 subtitleCanvasGroup?.FadeOut(0.25f);
+                booingAudioSource.FadeTo(0.0f, 0.25f);
+                applauseAudioSource.FadeTo(1.0f, 0.5f);
             }
         }
 
@@ -301,6 +310,7 @@ public class GameSystem : MonoBehaviour
                 gameOverObject.SetActive(true);
                 if (subtitleText) subtitleText.text = "";
                 subtitleCanvasGroup?.FadeOut(0.25f);
+                booingAudioSource.FadeTo(0.0f, 0.25f);
             }
         }
         foreach (var light in lights)
@@ -315,7 +325,7 @@ public class GameSystem : MonoBehaviour
     {
         DualNote dualNote = dualNoteCombos[0];
         int maxNotesPerSpawn = 1;
-        float t = (float)currentIndex / (float)beatSamples.Count;
+        float t = (float)currentIndex / (float)beatPos.Count;
         if (t > dualNoteStartsAt)
         {
             maxNotesPerSpawn = 2;
@@ -324,13 +334,22 @@ public class GameSystem : MonoBehaviour
         }
         if (t > tripleNoteStartsAt) maxNotesPerSpawn = 3;
 
+        float timeSinceLastNote = Time.time - prevNoteTime;
+        if (timeSinceLastNote < minTimeBetweenNotes * 2.0f)
+        {
+            maxNotesPerSpawn = 1;
+        }
+
         int totalNotes = Mathf.Min(notePrefabs.Count, maxNotesPerSpawn);
         int notesToSpawn = Random.Range(1, totalNotes + 1);
 
         // Pick unique indices to spawn
         List<int> availableIndices = new List<int>();
         for (int i = 0; i < notePrefabs.Count; i++)
+        {
+            if ((timeSinceLastNote < minTimeBetweenNotes * 2.0f) && (prevNote == i)) continue;
             availableIndices.Add(i);
+        }
 
         for (int i = 0; i < notesToSpawn; i++)
         {
@@ -358,6 +377,9 @@ public class GameSystem : MonoBehaviour
                 noteScript.audioSource = audioSource;
                 noteScript.gameSystem = this;
             }
+
+            prevNoteTime = Time.time;
+            prevNote = selected;
         }
     }
 
@@ -379,10 +401,20 @@ public class GameSystem : MonoBehaviour
 
         animTargetState = AnimTargetState.Fail;
 
-        if (!cheatMode) 
+        if (!cheatMode)
+        {
             booMeter += 0.1f;
+            applauseAudioSource.FadeTo(0.0f, 0.5f);
+            if (booMeter > 0.3f)
+            {
+                applauseOnZero = true;
+            }
+        }
         suckOMeter.transform.localScale = Vector3.one * 1.25f;
         suckOMeter.transform.ScaleTo(Vector3.one, 0.1f);
+
+        //audioSource.pitch = 0.75f;
+        //audioSource.PitchShift(1.0f, 0.25f);
     }
 
     void FlashTarget(Color color)
@@ -409,8 +441,22 @@ public class GameSystem : MonoBehaviour
 
         animTargetState = AnimTargetState.Success;
 
-        if (!cheatMode)
+        if (booMeter > 0.0f)
+        {
             booMeter -= 0.05f;
+            if (booMeter <= 0.0f)
+            {
+                booMeter = 0.0f;
+                if (applauseOnZero)
+                {
+                    applauseAudioSource.FadeTo(1.0f, 0.5f).Done(() =>
+                    {
+                        applauseAudioSource.FadeTo(0.0f, 0.5f).DelayStart(2.0f);
+                    });
+                    applauseOnZero = false;
+                }
+            }
+        }
 
         successNotes++;
     }

@@ -1235,7 +1235,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 577480315}
-  saveName: MangalhoDoHomemGalho
+  useTime: 1
+  saveName: NewMangalhoDoHomemGalhoBeat
 --- !u!4 &1325550083
 Transform:
   m_ObjectHideFlags: 0
@@ -1254,6 +1255,11 @@ Transform:
 --- !u!82 &1802187115 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 3260401131552446402, guid: 2c3b1e013e0a9a94881495f415272514, type: 3}
+  m_PrefabInstance: {fileID: 7191267440872464404}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &1973696209 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 4126907026539500272, guid: 2c3b1e013e0a9a94881495f415272514, type: 3}
   m_PrefabInstance: {fileID: 7191267440872464404}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1612415752345527002
@@ -1436,6 +1442,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 513648593878412649, guid: dcb7101cee7905b46a4d88565b36a777, type: 3}
+      propertyPath: cheatMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 513648593878412649, guid: dcb7101cee7905b46a4d88565b36a777, type: 3}
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 577480315}
@@ -1446,11 +1456,11 @@ PrefabInstance:
     - target: {fileID: 513648593878412649, guid: dcb7101cee7905b46a4d88565b36a777, type: 3}
       propertyPath: beatRecording
       value: 
-      objectReference: {fileID: 11400000, guid: 68d68d7534d013d4b8b65980423dc2cb, type: 2}
+      objectReference: {fileID: 11400000, guid: b56b31b047daf084bb4981314a71a328, type: 2}
     - target: {fileID: 513648593878412649, guid: dcb7101cee7905b46a4d88565b36a777, type: 3}
       propertyPath: subtitleTrack
       value: 
-      objectReference: {fileID: 3778455083779103953, guid: 501b6551dfd77e34cabc3e5333f1085a, type: 3}
+      objectReference: {fileID: 3778455083779103953, guid: feb0eb36695c27045b394eaeccf34558, type: 3}
     - target: {fileID: 513648593878412649, guid: dcb7101cee7905b46a4d88565b36a777, type: 3}
       propertyPath: titleCanvasGroup
       value: 
@@ -1459,6 +1469,14 @@ PrefabInstance:
       propertyPath: booingAudioSource
       value: 
       objectReference: {fileID: 1802187115}
+    - target: {fileID: 513648593878412649, guid: dcb7101cee7905b46a4d88565b36a777, type: 3}
+      propertyPath: applauseAudioSource
+      value: 
+      objectReference: {fileID: 1973696209}
+    - target: {fileID: 513648593878412649, guid: dcb7101cee7905b46a4d88565b36a777, type: 3}
+      propertyPath: minTimeBetweenNotes
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 513648593878412649, guid: dcb7101cee7905b46a4d88565b36a777, type: 3}
       propertyPath: 'lights.Array.data[0]'
       value: 
@@ -1511,6 +1529,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4825961020577351909, guid: dcb7101cee7905b46a4d88565b36a777, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 6553087062420159370, guid: dcb7101cee7905b46a4d88565b36a777, type: 3}
       propertyPath: m_Name
       value: MainSystems
@@ -1535,11 +1557,11 @@ PrefabInstance:
     - target: {fileID: 1420740749388777526, guid: 2c3b1e013e0a9a94881495f415272514, type: 3}
       propertyPath: m_Resource
       value: 
-      objectReference: {fileID: 8300000, guid: 07a342b4553ca8e449620d72aef1de96, type: 3}
+      objectReference: {fileID: 8300000, guid: 8a66446c84ceac54c8c23f595f43193d, type: 3}
     - target: {fileID: 1420740749388777526, guid: 2c3b1e013e0a9a94881495f415272514, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 07a342b4553ca8e449620d72aef1de96, type: 3}
+      objectReference: {fileID: 8300000, guid: 8a66446c84ceac54c8c23f595f43193d, type: 3}
     - target: {fileID: 8095926695414506202, guid: 2c3b1e013e0a9a94881495f415272514, type: 3}
       propertyPath: m_Name
       value: Audio
