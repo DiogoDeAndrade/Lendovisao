@@ -76,6 +76,9 @@ public class GameSystem : MonoBehaviour
     private int                         successNotes = 0;
     private float                       timeSinceEnd = 0.0f;
 
+    public BeatRecording GetBeatRecording() => beatRecording;
+    public AudioSource   GetAudioSource() => audioSource;
+
     void Start()
     {
         SoundManager.PlayMusic(null);

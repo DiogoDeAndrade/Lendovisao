@@ -6,11 +6,20 @@ using UnityEngine.SceneManagement;
 
 public class CharacterSelect : MonoBehaviour
 {
-    [SerializeField] private Light2D[] selectionLights;
-    [SerializeField] private Material[] materials;
-    [SerializeField, Scene] private string[] scenes;
-    [SerializeField] private InputControl moveSelectionInput;
-    [SerializeField] private InputControl selectInput;
+    [System.Serializable]
+    struct Legend
+    {
+        public Light2D      light;
+        public Material     material;
+        [Scene]
+        public string       scene;
+        public CanvasGroup  titleCanvas;
+    }
+
+    [SerializeField] private Legend[]       legends;
+    [SerializeField] private float          changeCooldown;
+    [SerializeField] private InputControl   moveSelectionInput;
+    [SerializeField] private InputControl   selectInput;
 
     int selection = 0;
     float[] initialLightIntensity;
@@ -18,11 +27,11 @@ public class CharacterSelect : MonoBehaviour
 
     void Start()
     {
-        initialLightIntensity = new float[selectionLights.Length];
-        for (int i = 0; i < selectionLights.Length; i++)
+        initialLightIntensity = new float[legends.Length];
+        for (int i = 0; i < legends.Length; i++)
         {
-            initialLightIntensity[i] = selectionLights[i].intensity;
-            selectionLights[i].intensity = 0.0f;
+            initialLightIntensity[i] = legends[i].light.intensity;
+            legends[i].light.intensity = 0.0f;
         }
 
         UpdateSelection();
@@ -38,22 +47,22 @@ public class CharacterSelect : MonoBehaviour
         {
             if (moveSelectionInput.GetAxis() > 0.1f)
             {
-                selection = (selection + 1) % selectionLights.Length;
+                selection = (selection + 1) % legends.Length;
                 UpdateSelection();
-                cooldown = 0.5f;
+                cooldown = changeCooldown;
             }
             else if (moveSelectionInput.GetAxis() < -0.1f)
             {
-                selection = (selection + selectionLights.Length - 1) % selectionLights.Length;
+                selection = (selection + legends.Length - 1) % legends.Length;
                 UpdateSelection();
-                cooldown = 0.5f;
+                cooldown = changeCooldown;
             }
             if (selectInput.IsDown())
             {
                 SoundManager.PlayMusic(null);
                 FullscreenFader.FadeOut(0.5f, Color.black, () =>
                 {
-                    SceneManager.LoadScene(scenes[selection]);
+                    SceneManager.LoadScene(legends[selection].scene);
                 });
             }
         }
@@ -61,17 +70,19 @@ public class CharacterSelect : MonoBehaviour
 
     void UpdateSelection()
     {
-        for (int i = 0; i < selectionLights.Length; i++)
+        for (int i = 0; i < legends.Length; i++)
         {
             if (i == selection)
             {
-                selectionLights[i].FadeTo(initialLightIntensity[i], 0.2f);
-                materials[i].SetFloat("_OutlineEnable", 1.0f);
+                legends[i].titleCanvas.FadeIn(0.2f);
+                legends[i].light.FadeTo(initialLightIntensity[i], 0.2f);
+                legends[i].material.SetFloat("_OutlineEnable", 1.0f);
             }
             else
             {
-                selectionLights[i].FadeTo(0.0f, 0.2f);
-                materials[i].SetFloat("_OutlineEnable", 0.0f);
+                legends[i].titleCanvas.FadeOut(0.2f);
+                legends[i].light.FadeTo(0.0f, 0.2f);
+                legends[i].material.SetFloat("_OutlineEnable", 0.0f);
             }
         }
     }
