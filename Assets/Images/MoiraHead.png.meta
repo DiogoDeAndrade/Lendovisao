@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: 4ed79189696d71348a984f35fdbd4e5c
+guid: 7db26db26b8fefe4f876703b153ad14b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 720204943813835649
-    second: MoiraBody_0
+      213: -7425647486785463393
+    second: MoiraHead_0
+  - first:
+      213: 3714805921927337764
+    second: MoiraHead_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -49,8 +52,8 @@ TextureImporter:
   spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 0
-  spritePivot: {x: 0.5, y: 0.5}
+  alignment: 9
+  spritePivot: {x: 0.40316573, y: 0.38036707}
   spritePixelsToUnits: 3
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
@@ -113,23 +116,45 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: MoiraBody_0
+      name: MoiraHead_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 1024
-        height: 1536
+        y: 174
+        width: 5
+        height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 18bf081a49eaef900800000000000000
-      internalID: 720204943813835649
+      spriteID: f9b51ea14fcc2f890800000000000000
+      internalID: -7425647486785463393
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoiraHead_1
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 0
+        width: 438
+        height: 533
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4271ff9dd44ad8330800000000000000
+      internalID: 3714805921927337764
       vertices: []
       indices: 
       edges: []
@@ -139,7 +164,7 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
-    internalID: 0
+    internalID: 1537655665
     vertices: []
     indices: 
     edges: []
@@ -148,7 +173,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      MoiraBody_0: 720204943813835649
+      MoiraHead_0: -7425647486785463393
+      MoiraHead_1: 3714805921927337764
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

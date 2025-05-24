@@ -7,10 +7,16 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class GameSystem : MonoBehaviour
 {
+    [System.Serializable]
+    struct DualNote
+    {
+        public string note1;
+        public string note2;
+    }
+
     [Header("References")]
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioSource booingAudioSource;
@@ -47,6 +53,7 @@ public class GameSystem : MonoBehaviour
     [SerializeField] public float dualNoteStartsAt = 0.75f; // Changeable at runtime
     [SerializeField] public float tripleNoteStartsAt = 1.1f; 
     [SerializeField] private float booDecay = 0.025f;
+    [SerializeField] private List<DualNote> dualNoteCombos;
 
     [Header("Controls")]
     [SerializeField] private string[] allButtons;
@@ -274,9 +281,15 @@ public class GameSystem : MonoBehaviour
 
     void SpawnNotes()
     {
+        DualNote dualNote = dualNoteCombos[0];
         int maxNotesPerSpawn = 1;
         float t = (float)currentIndex / (float)beatSamples.Count;
-        if (t > dualNoteStartsAt) maxNotesPerSpawn = 2;
+        if (t > dualNoteStartsAt)
+        {
+            maxNotesPerSpawn = 2;
+            int randIndex = Random.Range(0, dualNoteCombos.Count);
+            dualNote = dualNoteCombos[randIndex];
+        }
         if (t > tripleNoteStartsAt) maxNotesPerSpawn = 3;
 
         int totalNotes = Mathf.Min(notePrefabs.Count, maxNotesPerSpawn);
@@ -289,9 +302,18 @@ public class GameSystem : MonoBehaviour
 
         for (int i = 0; i < notesToSpawn; i++)
         {
-            int randIndex = Random.Range(0, availableIndices.Count);
-            int selected = availableIndices[randIndex];
-            availableIndices.RemoveAt(randIndex);
+            int selected = -1;
+            if (notesToSpawn == 2)
+            {
+                if (i == 0) selected = GetNoteIndex(dualNote.note1);
+                else if (i == 1) selected = GetNoteIndex(dualNote.note2);
+            }
+            else
+            {
+                int randIndex = Random.Range(0, availableIndices.Count);
+                selected = availableIndices[randIndex];
+                availableIndices.RemoveAt(randIndex);
+            }
 
             Note prefab = notePrefabs[selected];
             Transform spawnPoint = spawnPoints[selected];
@@ -305,6 +327,16 @@ public class GameSystem : MonoBehaviour
                 noteScript.gameSystem = this;
             }
         }
+    }
+
+    private int GetNoteIndex(string button)
+    {
+        for (int i = 0; i <notePrefabs.Count; i++)
+        {
+            if (notePrefabs[i].GetButton() == button) return i;
+        }
+
+        return -1;
     }
 
     public void Fail()

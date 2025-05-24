@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2700082917151142499}
   - component: {fileID: 1287691082419307173}
   m_Layer: 0
-  m_Name: MusaranhoHead
+  m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -167,7 +167,7 @@ GameObject:
   - component: {fileID: 6649969752811141818}
   - component: {fileID: 6501529072294142429}
   m_Layer: 0
-  m_Name: MusaranhoFootR
+  m_Name: FootR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -306,7 +306,7 @@ GameObject:
   - component: {fileID: 1903557636305048546}
   - component: {fileID: 4879659482957717118}
   m_Layer: 0
-  m_Name: MusaranhoArmR
+  m_Name: ArmR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -589,7 +589,7 @@ GameObject:
   - component: {fileID: 5106910676810614032}
   - component: {fileID: 7472136230752299299}
   m_Layer: 0
-  m_Name: MusaranhoTail
+  m_Name: Tail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -692,7 +692,7 @@ GameObject:
   - component: {fileID: 6065514040868634782}
   - component: {fileID: 1460065613960984285}
   m_Layer: 0
-  m_Name: MusaranhoArmL
+  m_Name: ArmL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

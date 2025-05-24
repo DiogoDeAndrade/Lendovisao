@@ -11,11 +11,13 @@ public class BeatRecorder : MonoBehaviour
     private List<int> beatSamples = new List<int>();
     private bool isRecording = false;
 
+    private void Awake()
+    {
+        audioSource.Stop();
+    }
+
     void Update()
     {
-        if (audioSource == null || audioSource.clip == null)
-            return;
-
         // Start playback on first Space press
         if (!isRecording && Input.GetKeyDown(KeyCode.Space))
         {

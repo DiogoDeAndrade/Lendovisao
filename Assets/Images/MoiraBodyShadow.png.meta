@@ -1,10 +1,22 @@
 fileFormatVersion: 2
-guid: 4ed79189696d71348a984f35fdbd4e5c
+guid: 68ab21e8f7bb68c448c998c24dab2e0b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 720204943813835649
-    second: MoiraBody_0
+      213: 7415846805210244619
+    second: MoiraBodyShadow_0
+  - first:
+      213: 5185531016606671569
+    second: MoiraBodyShadow_1
+  - first:
+      213: 4132158344874167602
+    second: MoiraBodyShadow_2
+  - first:
+      213: 8320468427760516706
+    second: MoiraBodyShadow_3
+  - first:
+      213: 5810857172513107482
+    second: MoiraBodyShadow_4
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +125,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: MoiraBody_0
+      name: MoiraBodyShadow_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 1024
-        height: 1536
+        y: 14
+        width: 736
+        height: 754
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +140,96 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 18bf081a49eaef900800000000000000
-      internalID: 720204943813835649
+      spriteID: b06a545e0616ae660800000000000000
+      internalID: 7415846805210244619
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoiraBodyShadow_1
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 26
+        width: 17
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1d26c984cf4b6f740800000000000000
+      internalID: 5185531016606671569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoiraBodyShadow_2
+      rect:
+        serializedVersion: 2
+        x: 303
+        y: 29
+        width: 11
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 23d04ed1f10685930800000000000000
+      internalID: 4132158344874167602
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoiraBodyShadow_3
+      rect:
+        serializedVersion: 2
+        x: 361
+        y: 23
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26eb48983fd387370800000000000000
+      internalID: 8320468427760516706
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoiraBodyShadow_4
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 29
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a1eac28afcf44a050800000000000000
+      internalID: 5810857172513107482
       vertices: []
       indices: 
       edges: []
@@ -148,7 +248,11 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      MoiraBody_0: 720204943813835649
+      MoiraBodyShadow_0: 7415846805210244619
+      MoiraBodyShadow_1: 5185531016606671569
+      MoiraBodyShadow_2: 4132158344874167602
+      MoiraBodyShadow_3: 8320468427760516706
+      MoiraBodyShadow_4: 5810857172513107482
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

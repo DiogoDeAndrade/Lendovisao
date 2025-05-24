@@ -1094,6 +1094,8 @@ MonoBehaviour:
   gameOverObject: {fileID: 4392875798379367296}
   successObject: {fileID: 7946630682278927075}
   scoreObject: {fileID: 8718781788925297557}
+  titleCanvasGroup: {fileID: 0}
+  titleScene: Title
   notePrefabs:
   - {fileID: 6322739048099819149, guid: 60a09d618bef60d4bacf353021698559, type: 3}
   - {fileID: 5631518795762934688, guid: f67f1c4219eac1e4c9809f4ffa0ef1d9, type: 3}
@@ -1114,6 +1116,11 @@ MonoBehaviour:
   dualNoteStartsAt: 0.85
   tripleNoteStartsAt: 1.1
   booDecay: 0.025
+  dualNoteCombos:
+  - note1: Up
+    note2: Down
+  - note1: Left
+    note2: Right
   allButtons:
   - Left
   - Right

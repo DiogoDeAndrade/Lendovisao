@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 4ed79189696d71348a984f35fdbd4e5c
+guid: 0d107451574327a48919783606e6ec99
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 720204943813835649
-    second: MoiraBody_0
+      213: 8489621616988975310
+    second: MusaranhoFull_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -48,7 +48,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 1
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 3
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: MoiraBody_0
+      name: MusaranhoFull_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1024
-        height: 1536
+        x: 127
+        y: 57
+        width: 821
+        height: 869
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 18bf081a49eaef900800000000000000
-      internalID: 720204943813835649
+      spriteID: ec0fa1671e131d570800000000000000
+      internalID: 8489621616988975310
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      MoiraBody_0: 720204943813835649
+      MusaranhoFull_0: 8489621616988975310
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
