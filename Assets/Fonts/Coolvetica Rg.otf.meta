@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7155f7f691e3fd841be1e68702d40c05
+guid: 42034150c2805be44a966bd3a7d043a6
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Lemon Funky
+  - Coolvetica
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

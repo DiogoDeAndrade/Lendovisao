@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using TMPro;
 using UC;
 using UnityEngine;
-using UnityEngine.Audio;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 
@@ -17,20 +16,25 @@ public class GameSystem : MonoBehaviour
         public string note2;
     }
 
+    [SerializeField] private bool               cheatMode = false;
+
     [Header("References")]
-    [SerializeField] private AudioSource audioSource;
-    [SerializeField] private AudioSource booingAudioSource;
-    [SerializeField] private BeatRecording beatRecording;
-    [SerializeField] private SpriteRenderer targetSpriteRenderer;
-    [SerializeField] private Light2D[]  lights;
-    [SerializeField] private Light2D    globalLight;
-    [SerializeField] private Transform suckOMeter;
-    [SerializeField] private SpriteRenderer arrowSpriteRenderer;
-    [SerializeField] private GameObject gameOverObject;
-    [SerializeField] private GameObject successObject;
-    [SerializeField] private TextMeshPro scoreObject;
-    [SerializeField] private CanvasGroup titleCanvasGroup;
-    [SerializeField, Scene] private string titleScene;
+    [SerializeField] private AudioSource        audioSource;
+    [SerializeField] private AudioSource        booingAudioSource;
+    [SerializeField] private BeatRecording      beatRecording;
+    [SerializeField] private SubtitleTrack      subtitleTrack;
+    [SerializeField] private SpriteRenderer     targetSpriteRenderer;
+    [SerializeField] private Light2D[]          lights;
+    [SerializeField] private Light2D            globalLight;
+    [SerializeField] private Transform          suckOMeter;
+    [SerializeField] private SpriteRenderer     arrowSpriteRenderer;
+    [SerializeField] private GameObject         gameOverObject;
+    [SerializeField] private GameObject         successObject;
+    [SerializeField] private TextMeshPro        scoreObject;
+    [SerializeField] private CanvasGroup        titleCanvasGroup;
+    [SerializeField, Scene] private string      titleScene;
+    [SerializeField] private CanvasGroup        subtitleCanvasGroup;
+    [SerializeField] private TextMeshProUGUI    subtitleText;
 
     [Header("Note Prefabs (1 per spawn point)")]
     [SerializeField] private List<Note> notePrefabs;
@@ -81,6 +85,9 @@ public class GameSystem : MonoBehaviour
 
     void Start()
     {
+#if !UNITY_EDITOR
+        cheatMode = false;
+#endif
         SoundManager.PlayMusic(null);
 
         if (audioSource == null || beatRecording == null || beatRecording.audioClip == null)
@@ -121,6 +128,8 @@ public class GameSystem : MonoBehaviour
         StartCoroutine(StartTitleCR());
 
         targetOriginalSize = targetSpriteRenderer.transform.localScale;
+        if (subtitleText) subtitleText.text = "";
+        if (subtitleCanvasGroup) subtitleCanvasGroup.alpha = 0.0f;
     }
 
     IEnumerator StartTitleCR()
@@ -154,7 +163,21 @@ public class GameSystem : MonoBehaviour
             }
             return;
         }
-        
+        else if ((subtitleTrack != null) && (subtitleText != null))
+        {
+            var text = subtitleTrack.GetAtTime(audioSource.time);
+            if (text == null)
+            {
+                if (subtitleText) subtitleText.text = "";
+                subtitleCanvasGroup?.FadeOut(0.25f);
+            }
+            else
+            {
+                if (subtitleText) subtitleText.text = text.text;
+                subtitleCanvasGroup?.FadeIn(0.25f);
+            }
+        }
+
         float currentTime = audioSource.time;
 
         while (currentIndex < beatSamples.Count)
@@ -189,6 +212,8 @@ public class GameSystem : MonoBehaviour
                 successObject.SetActive(true);
                 scoreObject.text = $"{Mathf.RoundToInt(score)} points!";
                 gameOver = true;
+                if (subtitleText) subtitleText.text = "";
+                subtitleCanvasGroup?.FadeOut(0.25f);
             }
         }
 
@@ -274,6 +299,8 @@ public class GameSystem : MonoBehaviour
                 audioSource.FadeTo(0.0f, 2.0f);
                 booingAudioSource.FadeTo(0.5f, 2.0f);
                 gameOverObject.SetActive(true);
+                if (subtitleText) subtitleText.text = "";
+                subtitleCanvasGroup?.FadeOut(0.25f);
             }
         }
         foreach (var light in lights)
@@ -352,7 +379,8 @@ public class GameSystem : MonoBehaviour
 
         animTargetState = AnimTargetState.Fail;
 
-        booMeter += 0.1f;
+        if (!cheatMode) 
+            booMeter += 0.1f;
         suckOMeter.transform.localScale = Vector3.one * 1.25f;
         suckOMeter.transform.ScaleTo(Vector3.one, 0.1f);
     }
@@ -381,7 +409,8 @@ public class GameSystem : MonoBehaviour
 
         animTargetState = AnimTargetState.Success;
 
-        booMeter -= 0.05f;
+        if (!cheatMode)
+            booMeter -= 0.05f;
 
         successNotes++;
     }

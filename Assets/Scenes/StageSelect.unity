@@ -183,8 +183,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: db17aeed4ab43e04c92d0fa2eade0a04, type: 2}
-  m_sharedMaterial: {fileID: 9186160523485432793, guid: db17aeed4ab43e04c92d0fa2eade0a04, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4b089807eb74bdd43aaa2ab38b0177b2, type: 2}
+  m_sharedMaterial: {fileID: 7619783277279362548, guid: 4b089807eb74bdd43aaa2ab38b0177b2, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -208,8 +208,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 19.9
-  m_fontSizeBase: 19.9
+  m_fontSize: 27.88
+  m_fontSizeBase: 27.88
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1829,8 +1829,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Dan\xE7a dos Musaranhos\n<size=60%>Musaranho varia\xE7\xF5es"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: db17aeed4ab43e04c92d0fa2eade0a04, type: 2}
-  m_sharedMaterial: {fileID: 9186160523485432793, guid: db17aeed4ab43e04c92d0fa2eade0a04, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4b089807eb74bdd43aaa2ab38b0177b2, type: 2}
+  m_sharedMaterial: {fileID: 7619783277279362548, guid: 4b089807eb74bdd43aaa2ab38b0177b2, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1854,8 +1854,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 19.9
-  m_fontSizeBase: 19.9
+  m_fontSize: 27.88
+  m_fontSizeBase: 27.88
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2073,8 +2073,8 @@ MonoBehaviour:
 
     <size=60%>Woodspell'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: db17aeed4ab43e04c92d0fa2eade0a04, type: 2}
-  m_sharedMaterial: {fileID: 9186160523485432793, guid: db17aeed4ab43e04c92d0fa2eade0a04, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4b089807eb74bdd43aaa2ab38b0177b2, type: 2}
+  m_sharedMaterial: {fileID: 7619783277279362548, guid: 4b089807eb74bdd43aaa2ab38b0177b2, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2098,8 +2098,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 19.9
-  m_fontSizeBase: 19.9
+  m_fontSize: 27.88
+  m_fontSizeBase: 27.88
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2280,9 +2280,33 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.20754719
       objectReference: {fileID: 0}
+    - target: {fileID: 3308347968090044361, guid: b82be3dff43459f408614c6ec3215e5e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3308347968090044361, guid: b82be3dff43459f408614c6ec3215e5e, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3308347968090044361, guid: b82be3dff43459f408614c6ec3215e5e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3720495504612065858, guid: b82be3dff43459f408614c6ec3215e5e, type: 3}
       propertyPath: m_Name
       value: VideoCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 4002569090554138321, guid: b82be3dff43459f408614c6ec3215e5e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4002569090554138321, guid: b82be3dff43459f408614c6ec3215e5e, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4002569090554138321, guid: b82be3dff43459f408614c6ec3215e5e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4392507712832049840, guid: b82be3dff43459f408614c6ec3215e5e, type: 3}
       propertyPath: m_Camera
