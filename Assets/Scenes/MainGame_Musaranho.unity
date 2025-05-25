@@ -895,7 +895,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 577480315}
-  useTime: 1
   saveName: DancaDosMusaranhosBeat
 --- !u!4 &1325550083
 Transform:
@@ -1042,6 +1041,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 52
       objectReference: {fileID: 0}
+    - target: {fileID: 2383126384704554014, guid: dcb7101cee7905b46a4d88565b36a777, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 519420031}
     - target: {fileID: 3654931840058085706, guid: dcb7101cee7905b46a4d88565b36a777, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

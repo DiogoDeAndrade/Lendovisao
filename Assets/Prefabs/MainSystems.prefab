@@ -400,7 +400,7 @@ Canvas:
   serializedVersion: 3
   m_RenderMode: 1
   m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_PlaneDistance: 1
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -409,7 +409,7 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
+  m_SortingLayerID: 179239291
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!114 &3820756219737121132
@@ -424,10 +424,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
-  m_ReferencePixelsPerUnit: 100
+  m_UiScaleMode: 1
+  m_ReferencePixelsPerUnit: 1
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1280, y: 720}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -1338,7 +1338,8 @@ MonoBehaviour:
   cheatMode: 0
   audioSource: {fileID: 0}
   booingAudioSource: {fileID: 0}
-  beatRecording: {fileID: 11400000, guid: f9bf7dd8b434ee54c8e7698a0c30dcf6, type: 2}
+  applauseAudioSource: {fileID: 0}
+  beatRecording: {fileID: 0}
   subtitleTrack: {fileID: 0}
   targetSpriteRenderer: {fileID: 8831059351601798549}
   lights:
@@ -1366,7 +1367,12 @@ MonoBehaviour:
   - {fileID: 5122289373420420527}
   timeBeforeNote: 4
   minTimeBetweenNotes: 0.2
-  delayTime: 2
+  delayTime: 4
+  tolerance: {x: -0.1, y: 0.2}
+  perfectTolerance: 0.05
+  booPerFail: 0.1
+  booPerSuccess: -0.05
+  booPerPerfectSuccess: -0.1
   targetDefaultColor: {r: 0.8679245, g: 0.78923965, b: 0.12691349, a: 1}
   targetFailColor: {r: 0.8396226, g: 0.122774996, b: 0.122774996, a: 1}
   targetSuccessColor: {r: 0.11173906, g: 0.8773585, b: 0.24169345, a: 1}

@@ -1,6 +1,7 @@
 using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UC;
 using UnityEngine;
@@ -47,6 +48,11 @@ public class GameSystem : MonoBehaviour
     [SerializeField] private float timeBeforeNote = 1.0f;
     [SerializeField] private float minTimeBetweenNotes = 0.2f;
     [SerializeField] private float delayTime = 2.0f;
+    [SerializeField] private Vector2 tolerance = new Vector2(-0.1f, 0.2f);
+    [SerializeField] private float perfectTolerance = 0.05f;
+    [SerializeField] private float booPerFail = 0.1f;
+    [SerializeField] private float booPerSuccess = -0.05f;
+    [SerializeField] private float booPerPerfectSuccess = -0.1f;
 
     [Header("Colors")]
     [SerializeField] private Color targetDefaultColor = Color.white;
@@ -67,7 +73,6 @@ public class GameSystem : MonoBehaviour
     private int currentIndex = 0;
     private float lastSpawnTime = -Mathf.Infinity;
 
-    private float sampleRate;
     private enum AnimTargetState { None, Fail, Success };
 
     private AnimTargetState             animTargetState = AnimTargetState.None;
@@ -83,9 +88,19 @@ public class GameSystem : MonoBehaviour
     private bool                        applauseOnZero = false;
     private int                         prevNote;
     private float                       prevNoteTime;
-
+    private float                       startTimer;
+    private int                         consecutiveFails;
     public BeatRecording GetBeatRecording() => beatRecording;
     public AudioSource   GetAudioSource() => audioSource;
+
+    class NoteInstance
+    {
+        public List<Note>   notes;
+        public List<int>    keysPressed;
+        public float        srcX;
+        public float        targetTime;
+    };
+    List<NoteInstance> activeNotes = new();
 
     void Start()
     {
@@ -114,15 +129,13 @@ public class GameSystem : MonoBehaviour
         }
 
         beatPos = beatRecording.beatPositions;
-        sampleRate = audioSource.clip.frequency;
 
         currentIndex = 0;
-        lastSpawnTime = -minTimeBetweenNotes;
 
         if (delayTime > 0.0f)
         {
             audioSource.Stop();
-            StartCoroutine(StartMusicCR(delayTime));
+            startTimer = delayTime;
         }
         else
         {
@@ -143,13 +156,6 @@ public class GameSystem : MonoBehaviour
         titleCanvasGroup.FadeIn(1.0f);
         yield return new WaitForSeconds(2.0f);
         titleCanvasGroup.FadeOut(1.0f);
-    }
-
-    IEnumerator StartMusicCR(float time)
-    {
-        yield return new WaitForSeconds(time);
-
-        audioSource.Play();
     }
 
     void Update()
@@ -183,13 +189,11 @@ public class GameSystem : MonoBehaviour
             }
         }
 
-        float currentTime = audioSource.time;
+        float currentTime = GetCurrentTime();
 
         while (currentIndex < beatPos.Count)
         {
-            float beatTime = beatRecording.useTime
-                ? beatPos[currentIndex]
-                : beatPos[currentIndex] / sampleRate;
+            float beatTime = beatPos[currentIndex];
             float spawnTime = beatTime - timeBeforeNote;
 
             if (currentTime >= spawnTime)
@@ -215,9 +219,9 @@ public class GameSystem : MonoBehaviour
             if (timeSinceEnd > timeBeforeNote * 1.25f)
             {
                 var score = (float)successNotes / (float)beatPos.Count;
-                score = Mathf.Lerp(6, 12, score);
+                score = Mathf.Lerp(4, 12, score);
                 successObject.SetActive(true);
-                scoreObject.text = $"{Mathf.RoundToInt(score)} points!";
+                scoreObject.text = $"{Mathf.FloorToInt(score)} points!";
                 gameOver = true;
                 if (subtitleText) subtitleText.text = "";
                 subtitleCanvasGroup?.FadeOut(0.25f);
@@ -226,65 +230,129 @@ public class GameSystem : MonoBehaviour
             }
         }
 
-        List<Note> notesInTarget = new();
+        UpdateNotes();
+        UpdateEffects();
 
-        var notes = FindObjectsByType<Note>(FindObjectsSortMode.None);
-        foreach (var note in notes)
+        if (startTimer > 0.0f)
         {
-            if ((note.inTarget) && (note.isActive))
+            startTimer -= Time.deltaTime;
+            if (startTimer <= 0.0f)
             {
-                notesInTarget.Add(note);
+                audioSource.Play();
+                startTimer = 0.0f;
             }
         }
-        if (notesInTarget.Count > 0)
-        {
-            bool allHit = true;
-            foreach (var note in notesInTarget)
-            {
-                if (!note.isHit) allHit = false;
-            }
+    }
 
-            bool oneFailHit = false;
-            foreach (var button in allButtons)
+    float GetCurrentTime()
+    {
+        if (startTimer > 0.0f) return -startTimer;
+
+        return audioSource.time;
+    }
+
+    void UpdateNotes()
+    {
+        float currentTime = GetCurrentTime();
+
+        // Check inputs
+        var currentNote = activeNotes.FirstOrDefault();
+
+        if (currentNote != null)
+        {
+            // Is it in the window?
+            float deltaTime = currentNote.targetTime - currentTime;
+
+            if (deltaTime <= tolerance.y)
             {
-                if (Input.GetButtonDown(button))
+                for (int keyId = 0; keyId < allButtons.Length; keyId++)
                 {
-                    bool foundNote = false;
-                    foreach (var note in notesInTarget)
+                    if (Input.GetButtonDown(allButtons[keyId]))
                     {
-                        if (note.GetButton() == button)
+                        bool need = false;
+                        // Check if any note needs this note and if we haven't already pressed it
+                        if (currentNote.keysPressed.IndexOf(keyId) == -1)
                         {
-                            foundNote = true;
-                            break;
+                            foreach (var n in currentNote.notes)
+                            {
+                                if (n.GetButton() == allButtons[keyId])
+                                {
+                                    need = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (need)
+                        {
+                            // This is a required note
+                            currentNote.keysPressed.Add(keyId);
+
+                            if (currentNote.keysPressed.Count == currentNote.notes.Count)
+                            {
+                                // Correct number of notes pressed
+                                bool isPerfect = Mathf.Abs(deltaTime) < perfectTolerance;
+
+                                foreach (var nn in currentNote.notes)
+                                {
+                                    nn.Success(isPerfect);
+                                }
+                                currentNote.notes.Clear();
+                                currentNote.notes = null;
+
+                                // Run success here
+                                Success(isPerfect);
+                            }
+                        }
+                        else
+                        {
+                            foreach (var nn in currentNote.notes)
+                            {
+                                nn.Fail();
+                            }
+                            currentNote.notes.Clear();
+                            currentNote.notes = null;
+
+                            // Run fail here
+                            Fail();
                         }
                     }
-                    if (!foundNote)
-                    {
-                        oneFailHit = true;
-                        break;
-                    }
-
-                }
-            }
-            if (oneFailHit)
-            {
-                Fail();
-                foreach (var note in notesInTarget)
-                {
-                    note.Fail();
-                }
-            }
-            else if (allHit)
-            {
-                Success();
-                foreach (var note in notesInTarget)
-                {
-                    note.Success();
                 }
             }
         }
 
-        booMeter = Mathf.Clamp01(booMeter - booDecay * Time.deltaTime); 
+        activeNotes.RemoveAll((n) => n.notes == null);
+
+        // Update positions
+        foreach (var n in activeNotes)
+        {
+            float deltaTime = n.targetTime - currentTime;
+            float t = 1.0f - (deltaTime / timeBeforeNote);
+            float x = Mathf.LerpUnclamped(n.srcX, targetSpriteRenderer.transform.position.x, t);
+
+            foreach (var nn in n.notes)
+            {
+                nn.transform.position = nn.transform.position.ChangeX(x);
+            }
+            
+            if (deltaTime < tolerance.x)
+            {
+                foreach (var nn in n.notes)
+                {
+                    nn.Fail();
+
+                    // Run fail here
+                    Fail();
+                }
+                n.notes.Clear();
+                n.notes = null;
+            }
+        }
+    }
+
+    void UpdateEffects()
+    {
+        booMeter = Mathf.Clamp01(booMeter - booDecay * Time.deltaTime);
         booingAudioSource.volume = booMeter;
         audioSource.volume = Mathf.Lerp(0.25f, 1.0f, 1.0f - booMeter);
 
@@ -323,6 +391,9 @@ public class GameSystem : MonoBehaviour
 
     void SpawnNotes()
     {
+        NoteInstance noteInstance = new();
+        noteInstance.notes = new();
+
         DualNote dualNote = dualNoteCombos[0];
         int maxNotesPerSpawn = 1;
         float t = (float)currentIndex / (float)beatPos.Count;
@@ -380,7 +451,15 @@ public class GameSystem : MonoBehaviour
 
             prevNoteTime = Time.time;
             prevNote = selected;
+
+            noteInstance.notes.Add(noteScript);
         }
+
+        noteInstance.keysPressed = new();
+        noteInstance.srcX = spawnPoints[0].position.x;
+        noteInstance.targetTime = GetCurrentTime() + timeBeforeNote;
+
+        activeNotes.Add(noteInstance);
     }
 
     private int GetNoteIndex(string button)
@@ -403,7 +482,7 @@ public class GameSystem : MonoBehaviour
 
         if (!cheatMode)
         {
-            booMeter += 0.1f;
+            booMeter += booPerFail;
             applauseAudioSource.FadeTo(0.0f, 0.5f);
             if (booMeter > 0.3f)
             {
@@ -413,8 +492,15 @@ public class GameSystem : MonoBehaviour
         suckOMeter.transform.localScale = Vector3.one * 1.25f;
         suckOMeter.transform.ScaleTo(Vector3.one, 0.1f);
 
-        //audioSource.pitch = 0.75f;
-        //audioSource.PitchShift(1.0f, 0.25f);
+        consecutiveFails++;
+
+        if (consecutiveFails > 5)
+        {
+            audioSource.pitch = -0.5f;
+            audioSource.PitchShift(1.0f, 0.25f).EaseFunction(Ease.Sqr);
+
+            consecutiveFails = 0;
+        }
     }
 
     void FlashTarget(Color color)
@@ -433,7 +519,7 @@ public class GameSystem : MonoBehaviour
             });
     }
 
-    private void Success()
+    private void Success(bool isPerfect)
     {
         if (animTargetState == AnimTargetState.Success) return;
 
@@ -442,8 +528,10 @@ public class GameSystem : MonoBehaviour
         animTargetState = AnimTargetState.Success;
 
         if (booMeter > 0.0f)
-        {
-            booMeter -= 0.05f;
+        {            
+            if (isPerfect) booMeter += booPerPerfectSuccess;
+            else booMeter += booPerSuccess;
+
             if (booMeter <= 0.0f)
             {
                 booMeter = 0.0f;
@@ -459,5 +547,6 @@ public class GameSystem : MonoBehaviour
         }
 
         successNotes++;
+        consecutiveFails = 0;
     }
 }

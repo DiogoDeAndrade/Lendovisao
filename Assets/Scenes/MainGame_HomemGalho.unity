@@ -1235,7 +1235,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 577480315}
-  useTime: 1
   saveName: NewMangalhoDoHomemGalhoBeat
 --- !u!4 &1325550083
 Transform:
@@ -1442,8 +1441,8 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 513648593878412649, guid: dcb7101cee7905b46a4d88565b36a777, type: 3}
-      propertyPath: cheatMode
-      value: 0
+      propertyPath: booPerFail
+      value: 0.065
       objectReference: {fileID: 0}
     - target: {fileID: 513648593878412649, guid: dcb7101cee7905b46a4d88565b36a777, type: 3}
       propertyPath: audioSource

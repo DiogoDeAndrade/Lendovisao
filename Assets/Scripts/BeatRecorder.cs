@@ -6,7 +6,6 @@ using UnityEngine;
 public class BeatRecorder : MonoBehaviour
 {
     [SerializeField] private AudioSource    audioSource;
-    [SerializeField] private bool           useTime = true;
     [SerializeField] private string         saveName = "BeatRecording";
 
     private List<float> beatSamples = new();
@@ -25,7 +24,7 @@ public class BeatRecorder : MonoBehaviour
             audioSource.Play();
             isRecording = true;
             beatSamples.Clear();
-            float sample = (useTime) ? (audioSource.time) : (audioSource.timeSamples);
+            float sample = audioSource.time;
             beatSamples.Add(sample);
             Debug.Log("Recording started...");
         }
@@ -33,7 +32,7 @@ public class BeatRecorder : MonoBehaviour
         // Record beats on spacebar
         if (isRecording && Input.GetKeyDown(KeyCode.Space))
         {
-            float sample = (useTime) ? (audioSource.time) : (audioSource.timeSamples);
+            float sample = audioSource.time;
             beatSamples.Add(sample);
             Debug.Log($"Recorded beat at sample {sample}");
         }
@@ -52,7 +51,6 @@ public class BeatRecorder : MonoBehaviour
     {
 #if UNITY_EDITOR
         BeatRecording recording = ScriptableObject.CreateInstance<BeatRecording>();
-        recording.useTime = useTime;
         recording.audioClip = audioSource.clip;
         recording.beatPositions = new List<float>(beatSamples);
 

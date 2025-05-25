@@ -48,7 +48,7 @@ public abstract class BeatSync : MonoBehaviour
         if (!audioSource.isPlaying || currentIndex >= beatSamples.Count)
             return;
 
-        float currentSample = (beatRecording.useTime) ? (audioSource.time) : (audioSource.timeSamples);
+        float currentSample = audioSource.time;
 
         while (currentIndex < beatSamples.Count && currentSample >= beatSamples[currentIndex])
         {

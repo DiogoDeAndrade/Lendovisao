@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class Note : MonoBehaviour
 {
-    [HideInInspector] public float          moveTime;                    // Time from spawn to beat
+    [HideInInspector] public float          moveTime;              // Time from spawn to beat
     [HideInInspector] public AudioSource    audioSource;           // Set by spawner
-    [HideInInspector] public GameSystem     gameSystem;               // Set by spawner
+    [HideInInspector] public GameSystem     gameSystem;            // Set by spawner
 
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private SpriteRenderer shadowSpriteRenderer;
@@ -31,7 +31,7 @@ public class Note : MonoBehaviour
 
     void Start()
     {
-        if (audioSource == null)
+/*        if (audioSource == null)
         {
             Debug.LogError("Note has no AudioSource assigned!");
             enabled = false;
@@ -39,13 +39,13 @@ public class Note : MonoBehaviour
         }
 
         spawnTime = audioSource.time;
-        startPosition = transform.position;
+        startPosition = transform.position;*/
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
     {
-        if (!audioSource.isPlaying)
+/*        if (!audioSource.isPlaying)
             return;
 
         float elapsed = audioSource.time - spawnTime;
@@ -71,10 +71,10 @@ public class Note : MonoBehaviour
             // Fail 2 - disappear the note, warn GameSystem
             Fail();
             gameSystem.Fail();
-        }
+        }*/
     }
 
-    public void Success()
+    public void Success(bool isPerfect)
     {
         // Success
         transform.ScaleTo(Vector3.one * 4.0f, 0.1f);
@@ -87,9 +87,7 @@ public class Note : MonoBehaviour
 
         float elapsed = audioSource.time - spawnTime;
 
-        // Clamp to [0, moveTime]
-        float t = elapsed / moveTime;
-        if (Mathf.Abs(t - 1.0f) < perfectTolerance)
+        if (isPerfect)
         {
             Instantiate(perfectText, transform.position, transform.rotation);
         }
@@ -111,5 +109,4 @@ public class Note : MonoBehaviour
 
         Instantiate(failText, transform.position, transform.rotation);
     }
-
 }

@@ -12,10 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59b5f06d0b01b33428f8f449b4bda8e7, type: 3}
   m_Name: NewMangalhoDoHomemGalhoBeat
   m_EditorClassIdentifier: 
-  useTime: 1
   audioClip: {fileID: 8300000, guid: 8a66446c84ceac54c8c23f595f43193d, type: 3}
   beatPositions:
-  - 0
   - 0
   - 1.4933333
   - 2.752

@@ -12,11 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59b5f06d0b01b33428f8f449b4bda8e7, type: 3}
   m_Name: DancaDosMusaranhosBeat
   m_EditorClassIdentifier: 
-  useTime: 1
   audioClip: {fileID: 8300000, guid: a6e4b90c2de34a7488d030cc77ccb010, type: 3}
   beatPositions:
-  - 0
-  - 0
   - 1.3653333
   - 2.496
   - 3.7546666
@@ -281,5 +278,4 @@ MonoBehaviour:
   - 171.52
   - 174.144
   - 175.38133
-  - 177.00267
   - 177.984
