@@ -31,53 +31,17 @@ public class Note : MonoBehaviour
 
     void Start()
     {
-/*        if (audioSource == null)
-        {
-            Debug.LogError("Note has no AudioSource assigned!");
-            enabled = false;
-            return;
-        }
-
-        spawnTime = audioSource.time;
-        startPosition = transform.position;*/
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
     {
-/*        if (!audioSource.isPlaying)
-            return;
-
-        float elapsed = audioSource.time - spawnTime;
-
-        // Clamp to [0, moveTime]
-        float t = elapsed / moveTime;
-
-        // Move by deltaMove units over moveTime seconds, rightward
-        transform.position = startPosition + Vector3.right * (deltaMove * t);
-
-        if (!active) return;
-
-        if (Mathf.Abs(t - 1.0f) < tolerance)
-        {
-            if (Input.GetButtonDown(button))
-            {
-                hit = true;
-            }
-        }
-
-        if (t > (1.0f + tolerance))
-        {
-            // Fail 2 - disappear the note, warn GameSystem
-            Fail();
-            gameSystem.Fail();
-        }*/
     }
 
     public void Success(bool isPerfect)
     {
         // Success
-        transform.ScaleTo(Vector3.one * 4.0f, 0.1f);
+        transform.LocalScaleTo(Vector3.one * 4.0f, 0.1f);
         spriteRenderer.FadeTo(spriteRenderer.color.ChangeAlpha(0.0f), 0.1f).Done(() =>
         {
             Destroy(gameObject);
@@ -99,7 +63,7 @@ public class Note : MonoBehaviour
 
     public void Fail()
     {
-        transform.ScaleTo(Vector3.zero, 0.1f);
+        transform.LocalScaleTo(Vector3.zero, 0.1f);
         spriteRenderer.FadeTo(spriteRenderer.color.ChangeAlpha(0.0f), 0.1f).Done(() =>
         {
             Destroy(gameObject);

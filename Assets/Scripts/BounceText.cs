@@ -16,7 +16,7 @@ public class BounceText : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(Vector3.forward, velocity.normalized);
         rb.linearVelocity = velocity;
         transform.localScale = Vector3.zero;
-        transform.ScaleTo(Vector3.one * scale, 0.2f);
+        transform.LocalScaleTo(Vector3.one * scale, 0.2f);
 
         Invoke(nameof(FadeOut), 0.3f);
     }

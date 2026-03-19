@@ -16,6 +16,6 @@ public class ScaleOnBeat : BeatSync
         }
 
         transform.localScale = startScale;
-        currentInterpolator = transform.ScaleTo(endScale, scaleTime).Done(() => currentInterpolator = null);
+        currentInterpolator = transform.LocalScaleTo(endScale, scaleTime).Done(() => currentInterpolator = null);
     }
 }

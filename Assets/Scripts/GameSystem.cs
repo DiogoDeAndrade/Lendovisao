@@ -372,7 +372,7 @@ public class GameSystem : MonoBehaviour
                     light.FadeOut(0.25f);
                 }
                 globalLight.FadeOut(0.25f);
-                audioSource.PitchShift(0.5f, 1.0f);
+                audioSource.PitchTo(0.5f, 1.0f);
                 audioSource.FadeTo(0.0f, 2.0f);
                 booingAudioSource.FadeTo(0.5f, 2.0f);
                 gameOverObject.SetActive(true);
@@ -490,14 +490,14 @@ public class GameSystem : MonoBehaviour
             }
         }
         suckOMeter.transform.localScale = Vector3.one * 1.25f;
-        suckOMeter.transform.ScaleTo(Vector3.one, 0.1f);
+        suckOMeter.transform.LocalScaleTo(Vector3.one, 0.1f);
 
         consecutiveFails++;
 
         if (consecutiveFails > 5)
         {
             audioSource.pitch = -0.5f;
-            audioSource.PitchShift(1.0f, 0.25f).EaseFunction(Ease.Sqr);
+            audioSource.PitchTo(1.0f, 0.25f).EaseFunction(Ease.Sqr);
 
             consecutiveFails = 0;
         }
@@ -509,7 +509,7 @@ public class GameSystem : MonoBehaviour
         if (colorAnim != null) colorAnim.Complete(true, true);
 
         targetSpriteRenderer.transform.localScale = new Vector2(targetOriginalSize.x * 1.5f, targetOriginalSize.x * 1.1f);
-        scaleAnim = targetSpriteRenderer.transform.ScaleTo(targetOriginalSize, 0.1f).Done(() => targetSpriteRenderer.transform.localScale = targetOriginalSize);
+        scaleAnim = targetSpriteRenderer.transform.LocalScaleTo(targetOriginalSize, 0.1f).Done(() => targetSpriteRenderer.transform.localScale = targetOriginalSize);
 
         targetSpriteRenderer.color = color;
         colorAnim = targetSpriteRenderer.FadeTo(targetDefaultColor, 0.1f).Done(() =>
