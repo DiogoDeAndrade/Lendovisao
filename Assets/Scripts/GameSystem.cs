@@ -270,15 +270,18 @@ public class GameSystem : MonoBehaviour
                     if (Input.GetButtonDown(allButtons[keyId]))
                     {
                         bool need = false;
-                        // Check if any note needs this note and if we haven't already pressed it
-                        if (currentNote.keysPressed.IndexOf(keyId) == -1)
+                        if (currentNote != null)
                         {
-                            foreach (var n in currentNote.notes)
+                            // Check if any note needs this note and if we haven't already pressed it
+                            if (currentNote.keysPressed.IndexOf(keyId) == -1)
                             {
-                                if (n.GetButton() == allButtons[keyId])
+                                foreach (var n in currentNote.notes)
                                 {
-                                    need = true;
-                                    break;
+                                    if (n.GetButton() == allButtons[keyId])
+                                    {
+                                        need = true;
+                                        break;
+                                    }
                                 }
                             }
                         }
