@@ -6,12 +6,12 @@ public abstract class BeatSync : MonoBehaviour
     [SerializeField] protected int everyN = 4;
     [SerializeField] protected int startIndex = 0;
 
-    protected AudioSource   audioSource;
-    protected BeatRecording beatRecording;
-    protected List<float>   beatSamples;
-    protected int           currentIndex = 0;
-    protected float         beatTime = 0.0f;
-    protected int           counter;
+    protected AudioSource                   audioSource;
+    protected BeatRecording                 beatRecording;
+    protected List<BeatRecording.BeatData>  beatSamples;
+    protected int                           currentIndex = 0;
+    protected float                         beatTime = 0.0f;
+    protected int                           counter;
 
     protected virtual void Start()
     {
@@ -25,7 +25,7 @@ public abstract class BeatSync : MonoBehaviour
         audioSource = gm.GetAudioSource();
         beatRecording = gm.GetBeatRecording();
 
-        if (audioSource == null || beatRecording == null || beatRecording.audioClip == null)
+        if ((audioSource == null) || (beatRecording == null) || (beatRecording.audioClip == null))
         {
             Debug.LogError("BeatSync not properly configured.");
             enabled = false;
@@ -37,7 +37,7 @@ public abstract class BeatSync : MonoBehaviour
             Debug.LogWarning("AudioSource.clip and BeatRecording.audioClip differ. For accurate sync, they should match.");
         }
 
-        beatSamples = beatRecording.beatPositions;
+        beatSamples = beatRecording.beatData;
         currentIndex = startIndex;
     }
 
@@ -50,7 +50,7 @@ public abstract class BeatSync : MonoBehaviour
 
         float currentSample = audioSource.time;
 
-        while (currentIndex < beatSamples.Count && currentSample >= beatSamples[currentIndex])
+        while ((currentIndex < beatSamples.Count) && (currentSample >= beatSamples[currentIndex].beatTime))
         {
             counter++;
             if (counter >= everyN)

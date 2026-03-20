@@ -69,9 +69,9 @@ public class GameSystem : MonoBehaviour
     [Header("Controls")]
     [SerializeField] private string[] allButtons;
 
-    private List<float> beatPos;
-    private int currentIndex = 0;
-    private float lastSpawnTime = -Mathf.Infinity;
+    private List<BeatRecording.BeatData>    beatPos;
+    private int                             currentIndex = 0;
+    private float                           lastSpawnTime = -Mathf.Infinity;
 
     private enum AnimTargetState { None, Fail, Success };
 
@@ -128,7 +128,7 @@ public class GameSystem : MonoBehaviour
             Debug.LogWarning("AudioSource.clip and BeatRecording.audioClip differ. For accurate sync, they should match.");
         }
 
-        beatPos = beatRecording.beatPositions;
+        beatPos = beatRecording.beatData;
 
         currentIndex = 0;
 
@@ -193,7 +193,7 @@ public class GameSystem : MonoBehaviour
 
         while (currentIndex < beatPos.Count)
         {
-            float beatTime = beatPos[currentIndex];
+            float beatTime = beatPos[currentIndex].beatTime;
             float spawnTime = beatTime - timeBeforeNote;
 
             if (currentTime >= spawnTime)

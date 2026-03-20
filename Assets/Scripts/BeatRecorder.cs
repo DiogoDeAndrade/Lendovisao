@@ -52,7 +52,11 @@ public class BeatRecorder : MonoBehaviour
 #if UNITY_EDITOR
         BeatRecording recording = ScriptableObject.CreateInstance<BeatRecording>();
         recording.audioClip = audioSource.clip;
-        recording.beatPositions = new List<float>(beatSamples);
+        recording.beatData = new();
+        for (int i = 0; i < beatSamples.Count; i++)
+        {
+            recording.beatData.Add(new BeatRecording.BeatData { beatTime = beatSamples[i] });
+        }
 
         string folderPath = "Assets/Audio";
         if (!AssetDatabase.IsValidFolder(folderPath))

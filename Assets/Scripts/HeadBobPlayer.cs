@@ -10,12 +10,12 @@ public class HeadBobPlayer : MonoBehaviour
     [SerializeField] private float bobAmplitude = 10.0f;
     [SerializeField] private float bobAngle = 10.0f;
 
-    private List<float> beatSamples;
-    private int currentIndex = 0;
-    private float timer = 0.0f;
-    private int counter;
-    private Vector3 basePos;
-    private float startAngle;
+    private List<BeatRecording.BeatData>    beatSamples;
+    private int                             currentIndex = 0;
+    private float                           timer = 0.0f;
+    private int                             counter;
+    private Vector3                         basePos;
+    private float                           startAngle;
 
     void Start()
     {
@@ -31,7 +31,7 @@ public class HeadBobPlayer : MonoBehaviour
             Debug.LogWarning("AudioSource.clip and BeatRecording.audioClip differ. For accurate sync, they should match.");
         }
 
-        beatSamples = beatRecording.beatPositions;
+        beatSamples = beatRecording.beatData;
         currentIndex = 0;
 
         basePos = transform.localPosition;
@@ -45,7 +45,7 @@ public class HeadBobPlayer : MonoBehaviour
 
         float currentSample = audioSource.time;
 
-        while (currentIndex < beatSamples.Count && currentSample >= beatSamples[currentIndex])
+        while ((currentIndex < beatSamples.Count) && (currentSample >= beatSamples[currentIndex].beatTime))
         {
             HeadBob();
             currentIndex++;
